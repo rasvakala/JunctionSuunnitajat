@@ -57,10 +57,7 @@ var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-var heat = L.heatLayer([
-	[60.1877, 24.8312, 20], // lat, lng, intensity
-	[60.1847, 24.8322, 5]
-], {radius: 25}).addTo(map);
+//var heat = L.heatLayer([[60.1877, 24.8312, 20], // lat, lng, intensity[60.1847, 24.8322, 5]], {radius: 25}).addTo(map);
 
   var wfst = new L.WFST({
     url: 'http://geo.stat.fi/geoserver/postialue/wfs',
@@ -68,19 +65,19 @@ var heat = L.heatLayer([
     typeName: 'pno_tilasto_2018',
     crs: L.CRS.EPSG4326,
     geometryField: 'ogr_geometry',
-            opacity: 1,
     style: function(layer) {
      	//console.log(layer);
 		// you can use if statemt etc
-        console.log(postCodes.indexOf(layer.feature.properties.posti_alue))
+        //console.log(postCodes.indexOf(layer.feature.properties.posti_alue))
         if(postCodes.indexOf(layer.feature.properties.posti_alue) != -1) {
-            console.log(colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)]);
+            //console.log(colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)]);
             var color = colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)];
-            console.log(fullColorHex(parseInt(color['r']),parseInt(3),parseInt(3)).toString());
+            //console.log(fullColorHex(parseInt(color['r']),parseInt(3),parseInt(3)).toString());
         }
 		return {
 		  // todo: combine and process data 
-		  color: postCodes.includes(layer.feature.properties.posti_alue) ? '#'+fullColorHex(parseInt(color['r']),parseInt(0),parseInt(0)).toString() : 'white',
+            opacity: 1,
+		  color: postCodes.includes(layer.feature.properties.posti_alue) ? '#'+fullColorHex(parseInt(color['r']),parseInt(color['b']),parseInt(0), 1).toString() : 'white',
 		  weight: 2
 		}
 	}
