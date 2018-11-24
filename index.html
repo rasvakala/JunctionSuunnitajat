@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p id="demo">test</p>
+
+<button type="button" onclick="getCompanies()">Try it</button>
+
+<script>
+var companiesPerRequest = 1000;
+var totalResults = 0;
+var companiesArray = [];
+var currentIndex = 0;
+var nextResultsUri = "";
+var resultLimit = 1000; //for debugging
+var delayVal = 3000;   //to avoid spamming the api
+//var requestURL = "";
+
+function delay(ms) {
+    var cur_d = new Date();
+    var cur_ticks = cur_d.getTime();
+    var ms_passed = 0;
+    while(ms_passed < ms) {
+        var d = new Date();  // Possible memory leak?
+        var ticks = d.getTime();
+        ms_passed = ticks - cur_ticks;
+        // d = null;  // Prevent memory leak?
+    }
+}
+
+function getNext(uri, totalResults) {
+    console.log(currentIndex);
+    //console.log(uri);
+    //console.log(companiesArray);
+    //var requestURL = uri;
+    var requestURL = 'http://avoindata.prh.fi/opendata/tr?registeredOffice=espoo&maxResults='+ companiesPerRequest +'&totalResults=true&resultsFrom=' +currentIndex;
+    console.log(requestURL);
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+       var companies = request.response.results;
+       totalResults = request.response.totalResults;
+        //console.log(totalResults);
+        nextResultsUri = request.response.nextResultsUri;
+        //console.log(nextResultsUri);
+        //console.log(request.response.results);
+        for(c=0;c<companies.length; c++) {
+            //console.log(companies[c])
+            //companiesArray.push(companies[c]);
+            companiesArray[currentIndex+c] = JSON.parse(JSON.stringify(companies[c]));   //copy by value
+            //Object.assign();
+        }
+    }
+    if(currentIndex < totalResults-companiesPerRequest && currentIndex < resultLimit) {   //dirty hack?
+        console.log("get more");
+        currentIndex = currentIndex + companiesPerRequest;
+        delay(delayVal);
+        getNext(nextResultsUri, totalResults);
+    }
+    else {  //finished loading companies
+        console.log(companiesArray);
+        for(c=0;c<companiesArray.length; c++) { //Now, for each company, get their type
+
+        }
+    }
+}
+function getCompanies() {
+    document.getElementById("demo").innerHTML = "Paragraph changed.";
+    var requestURL = 'https://avoindata.prh.fi/tr?registeredOffice=espoo&maxResults='+ companiesPerRequest +'&totalResults=true';
+    var request = new XMLHttpRequest();
+    request.open('GET', requestURL);
+    request.responseType = 'json';
+    request.send();
+    request.onload = function() {
+      var companies = request.response.results;
+       totalResults = request.response.totalResults
+        console.log(totalResults);
+        companiesArray = new Array(totalResults);
+        nextResultsUri = request.response.nextResultsUri;
+        //console.log(nextResultsUri);
+        console.log(request.response.results);
+        for(c=0;c<companies.length; c++) {
+            //console.log(companies[c])
+            //var company = companies[c];
+            //companiesArray.push(company);
+            companiesArray[currentIndex+c] = JSON.parse(JSON.stringify(companies[c]));   //copy by value
+        }
+        currentIndex = currentIndex + companiesPerRequest;
+        getNext(nextResultsUri, totalResults);
+      //var companies_json = JSON.parse(companies);
+      //populateHeader(companies);
+      //console.log(companies);
+    }
+}
+
+function getType(company) {
+
+}
+</script>
+
+</body>
+</html> 
+
