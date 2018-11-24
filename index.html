@@ -4,7 +4,7 @@
 
 <p id="demo">test</p>
 
-<button type="button" onclick="getCompanies()">Try it</button>
+<button type="button" onclick="getAllCompanies()">Try it</button>
 
 <script>
 var companiesPerRequest = 1000;
@@ -14,6 +14,11 @@ var currentIndex = 0;
 var nextResultsUri = "";
 var resultLimit = 1000; //for debugging
 var delayVal = 3000;   //to avoid spamming the api
+var industryCodes = ['62'];
+var postCodes = ['02100','02110','02130','02600', '02650'];
+var companiesByPostCode = []*postCodes.length;
+var companiesArray2 = [];
+var currentPCIndex = 0;
 //var requestURL = "";
 
 function delay(ms) {
@@ -28,12 +33,13 @@ function delay(ms) {
     }
 }
 
-function getNext(uri, totalResults) {
+function getNext(uri, totalResults, postCode, industryCode) {
     console.log(currentIndex);
     //console.log(uri);
     //console.log(companiesArray);
     //var requestURL = uri;
-    var requestURL = 'http://avoindata.prh.fi/opendata/tr?registeredOffice=espoo&maxResults='+ companiesPerRequest +'&totalResults=true&resultsFrom=' +currentIndex;
+    //var requestURL = 'http://avoindata.prh.fi/opendata/tr?registeredOffice=espoo&maxResults='+ companiesPerRequest +'&totalResults=true&resultsFrom=' +currentIndex;
+    var requestURL = 'https://avoindata.prh.fi/bis/v1?maxResults='+ companiesPerRequest +'&companyRegistrationFrom=2014-02-28&businessLineCode='+industryCode+'&registeredOffice=espoo&streetAddressPostCode='+postCode+'&totalResults=true&resultsFrom=' +currentIndex;
     console.log(requestURL);
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
@@ -57,30 +63,43 @@ function getNext(uri, totalResults) {
         console.log("get more");
         currentIndex = currentIndex + companiesPerRequest;
         delay(delayVal);
-        getNext(nextResultsUri, totalResults);
+        getNext(nextResultsUri, totalResults, postCode, industryCode);
     }
     else {  //finished loading companies
-        console.log(companiesArray);
-        for(c=0;c<companiesArray.length; c++) { //Now, for each company, get their type
-
+/*        console.log(companiesArray);
+        //for(c=0;c<companiesArray.length; c++) { //Now, for each company, get their type
+        for(c=0;c<1000; c++) { //Now, for each company, get their type
+            //var ytunnus = companiesArray[c].businessId;
+            console.log(companiesArray[c].bisDetailsUri);
+            getType(companiesArray[c].bisDetailsUri);
+            //var industry = companiesArray[c].
         }
+        */
+        //console.log(companiesArray);
     }
 }
-function getCompanies() {
+function getCompanies(postCode, industryCode) {
+    //companiesArray = new Array();
+    //companiesArray = [];
+    currentIndex = 0;
+    //totalResults = 0;
+    //nextResultsUri = "";
     document.getElementById("demo").innerHTML = "Paragraph changed.";
-    var requestURL = 'https://avoindata.prh.fi/tr?registeredOffice=espoo&maxResults='+ companiesPerRequest +'&totalResults=true';
+    //var requestURL = 'https://avoindata.prh.fi/tr?registeredOffice=espoo&maxResults='+ companiesPerRequest +'&totalResults=true';
+    var requestURL = 'https://avoindata.prh.fi/bis/v1?maxResults='+ companiesPerRequest +'&resultsFrom=0&companyRegistrationFrom=2014-02-28&businessLineCode='+industryCode+'&registeredOffice=espoo&streetAddressPostCode='+postCode+'&totalResults=true'
     var request = new XMLHttpRequest();
     request.open('GET', requestURL);
     request.responseType = 'json';
     request.send();
     request.onload = function() {
       var companies = request.response.results;
+        console.log(companies);
        totalResults = request.response.totalResults
         console.log(totalResults);
         companiesArray = new Array(totalResults);
         nextResultsUri = request.response.nextResultsUri;
         //console.log(nextResultsUri);
-        console.log(request.response.results);
+        //console.log(request.response.results);
         for(c=0;c<companies.length; c++) {
             //console.log(companies[c])
             //var company = companies[c];
@@ -88,15 +107,48 @@ function getCompanies() {
             companiesArray[currentIndex+c] = JSON.parse(JSON.stringify(companies[c]));   //copy by value
         }
         currentIndex = currentIndex + companiesPerRequest;
-        getNext(nextResultsUri, totalResults);
+        if(currentIndex < totalResults) {   //if still more companies
+            getNext(nextResultsUri, totalResults);
+        }
+        else {  //all companies added
+            //companies = [];
+            //console.log(companiesArray);
+            //console.log(postCode);
+            //return companiesArray
+            console.log(currentPCIndex);
+            companiesByPostCode[currentPCIndex] = companiesArray;
+            currentPCIndex = currentPCIndex + 1;
+            var value = companies.length;   //Here, determine the "value" - right now the amount of companies found
+            companiesArray2.push({'postcode':postCode, 'val': companies, 'amount': companies.length});
+            //companiesArray2[pc] = { val: value};
+            console.log(companiesArray2);
+            document.getElementById("demo").innerHTML = JSON.stringify(companiesArray2);
+            //console.log(companiesByPostCode);
+            //companiesArray = [];
+            //companiesArray.length = 0;
+            return companiesArray;
+        }
       //var companies_json = JSON.parse(companies);
       //populateHeader(companies);
       //console.log(companies);
     }
 }
 
-function getType(company) {
-
+function getAllCompanies() {
+    for (pc=0; pc<postCodes.length; pc++) {
+        var postCode = postCodes[pc];
+        var industryCode = industryCodes[0];
+        getCompanies(postCode, industryCode);
+        /*var companiesObj = {};
+        companiesObj.pc = postCode;
+        companiesObj.value = getCompanies(postCode);
+        console.log(companiesObj);
+        companiesArray2.push(companiesObj);
+        */
+    }
+    
+    //console.log(companiesArray2);
+    document.getElementById("demo").innerHTML = JSON.stringify(companiesArray2);
 }
 </script>
 
