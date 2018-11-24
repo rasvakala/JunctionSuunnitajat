@@ -40,6 +40,16 @@
       "SummaNormalized": 1
     },
     {
+        "Postinumero": "02150",
+        "E": "24.8298",
+        "N": "60.1860",
+        "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0.13705",
+        "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0.051634",
+        "Konsulttiyritysten määrä": 1,
+        "Summa": "1.188684",
+        "SummaNormalized": "0.816035672217318"
+      },
+    {
       "Postinumero": "02160",
       "E": "24.4947",
       "N": "60.1216",
@@ -65,18 +75,8 @@
       "N": "60.2244",
       "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0.197468",
       "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0.300757",
-      "Konsulttiyritysten määrä": "0,.204545454545455",
+      "Konsulttiyritysten määrä": "0.204545454545455",
       "Summa": "0.702770454545455",
       "SummaNormalized": "0.482454344711858"
-    },
-    {
-      "Postinumero": "02150",
-      "E": "24.8298",
-      "N": "60.1860",
-      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0.13705",
-      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0.051634",
-      "Konsulttiyritysten määrä": 1,
-      "Summa": "1.188684",
-      "SummaNormalized": "0.816035672217318"
     }
   ]
