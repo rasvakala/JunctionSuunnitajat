@@ -27,7 +27,24 @@
   <script type="text/javascript">
 
 var postCodes = ['02100','02110','02130','02140','02150','02160','02600', '02650'];
-var colorVals = ['blue','red','red','red','red','red','red', 'red'];
+var areaVals = [8/44,4/44,8/44,1/44,44/44,3/44,9/44, 29/44];
+var colorVals = [{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':4/44*255, 'g':4/44*255, 'b':4/44*255},{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':1/44*255, 'g':1/44*255, 'b':1/44*255},{'r':44/44*255, 'g':44/44*255, 'b':44/44*255},{'r':3/44*255, 'g':3/44*255, 'b':3/44*255},{'r':9/44*255, 'g':9/44*255, 'b':9/44*255}, {'r':29/44*255, 'g':29/44*255, 'b':29/44*255}];
+//var colorVals = [{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':4/44*255, 'g':4/44*255, 'b':4/44*255},{'r':44/44*255, 'g':44/44*255, 'b':44/44*255},{'r':30/44*255, 'g':30/44*255, 'b':30/44*255}];
+
+var rgbToHex = function (rgb) { 
+  var hex = Number(rgb).toString(16);
+  if (hex.length < 2) {
+       hex = "0" + hex;
+  }
+  return hex;
+};
+
+var fullColorHex = function(r,g,b) {   
+  var red = rgbToHex(r);
+  var green = rgbToHex(g);
+  var blue = rgbToHex(b);
+  return red+green+blue;
+};
 
 var map = L.map('mapid').setView([60.1847, 24.8322], 13);
 
@@ -46,13 +63,20 @@ var heat = L.heatLayer([
     typeName: 'pno_tilasto_2018',
     crs: L.CRS.EPSG4326,
     geometryField: 'ogr_geometry',
+            opacity: 1,
     style: function(layer) {
      	//console.log(layer);
 		// you can use if statemt etc
+        console.log(postCodes.indexOf(layer.feature.properties.posti_alue))
+        if(postCodes.indexOf(layer.feature.properties.posti_alue) != -1) {
+            console.log(colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)]);
+            var color = colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)];
+            console.log(fullColorHex(parseInt(color['r']),parseInt(3),parseInt(3)).toString());
+        }
 		return {
 		  // todo: combine and process data 
-		  color: postCodes.includes(layer.feature.properties.posti_alue) ? colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)] : 'grey',
-		  weight: 1
+		  color: postCodes.includes(layer.feature.properties.posti_alue) ? '#'+fullColorHex(parseInt(color['r']),parseInt(0),parseInt(0)).toString() : 'white',
+		  weight: 2
 		}
 	}
   }, new L.Format.GeoJSON({crs: L.CRS.EPSG4326}))
