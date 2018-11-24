@@ -2,7 +2,7 @@
 <html>
 <head>
 <style type="text/css">
-#mapid { width: 100%; height: 100%; min-height: 800px; }
+#mapid { width: 100%; height: 800px; }
 </style>
 
  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
@@ -19,12 +19,7 @@
  <script src="js/leaflet-wfst.src.js"></script>
 </head>
 <body>
-  
-  <select>
-	  <option>Office</option>
-	  <option>Restaurant</option>
-	  <option>Store</option>
-  </select>
+  <h2>Map</h2>
   
   <div id="mapid"></div>
 
@@ -32,26 +27,9 @@
   <script type="text/javascript">
 
 var postCodes = ['02100','02110','02130','02140','02150','02160','02600', '02650'];
-var areaVals = [0.604629117756936,0.588280662083903,1, 0.718073127096878, 0.716587970487341, 0.791595400327,0.482454344711858, 0.816035672217318];
-var maximum = Math.max(...areaVals);
-var minimum = Math.min(...areaVals);
-//var colorVals = [{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':4/44*255, 'g':4/44*255, 'b':4/44*255},{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':1/44*255, 'g':1/44*255, 'b':1/44*255},{'r':44/44*255, 'g':44/44*255, 'b':44/44*255},{'r':3/44*255, 'g':3/44*255, 'b':3/44*255},{'r':9/44*255, 'g':9/44*255, 'b':9/44*255}, {'r':29/44*255, 'g':29/44*255, 'b':29/44*255}];
+var areaVals = [8/44,4/44,8/44,1/44,44/44,3/44,9/44, 29/44];
+var colorVals = [{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':4/44*255, 'g':4/44*255, 'b':4/44*255},{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':1/44*255, 'g':1/44*255, 'b':1/44*255},{'r':44/44*255, 'g':44/44*255, 'b':44/44*255},{'r':3/44*255, 'g':3/44*255, 'b':3/44*255},{'r':9/44*255, 'g':9/44*255, 'b':9/44*255}, {'r':29/44*255, 'g':29/44*255, 'b':29/44*255}];
 //var colorVals = [{'r':8/44*255, 'g':8/44*255, 'b':8/44*255},{'r':4/44*255, 'g':4/44*255, 'b':4/44*255},{'r':44/44*255, 'g':44/44*255, 'b':44/44*255},{'r':30/44*255, 'g':30/44*255, 'b':30/44*255}];
-
-function hsl_col_perc(percent, start, end) {
-  var b = percent * (end - start),
-  		c = Math.round(b + start);
-	if(c<0) c = 0;
-	if(c>end) c = end;
-  console.log(percent + " " + c + ", " + 'hsl('+c+', 100%, 50%)');
-  // Return a CSS HSL string
-  return 'hsl('+c+', 100%, 50%)';
-}
-
-var colorVals = areaVals.map(function(element) {
-	// normalize values
-	return hsl_col_perc(1-(element - minimum) / (maximum - minimum), 0, 120);
-});
 
 var rgbToHex = function (rgb) { 
   var hex = Number(rgb).toString(16);
@@ -68,16 +46,26 @@ var fullColorHex = function(r,g,b) {
   return red+green+blue;
 };
 
+function hsl_col_perc(percent, start, end) {
+  var b = (end - start) * percent,
+  		c = Math.round(b + start);
+	if(c<0) c = 0;
+	if(c>end) c = end;
+  console.log(percent + " " + c + ", " + 'hsl('+c+', 100%, 50%)');
+  // Return a CSS HSL string
+  return 'hsl('+c+', 100%, 50%)';
+}
+
 var map = L.map('mapid').setView([60.1847, 24.8322], 13);
 
 var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
-/*var heat = L.heatLayer([
+var heat = L.heatLayer([
 	[60.1877, 24.8312, 20], // lat, lng, intensity
 	[60.1847, 24.8322, 5]
-], {radius: 25}).addTo(map);*/
+], {radius: 25}).addTo(map);
 
   var wfst = new L.WFST({
     url: 'http://geo.stat.fi/geoserver/postialue/wfs',
@@ -89,16 +77,17 @@ var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
     style: function(layer) {
      	//console.log(layer);
 		// you can use if statemt etc
-        console.log(postCodes.indexOf(layer.feature.properties.posti_alue))
+        /*console.log(postCodes.indexOf(layer.feature.properties.posti_alue))
         if(postCodes.indexOf(layer.feature.properties.posti_alue) != -1) {
             console.log(colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)]);
             var color = colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)];
             console.log(fullColorHex(parseInt(color['r']),parseInt(3),parseInt(3)).toString());
-        }
+        }*/
+	    console.log(layer.feature.properties.pt_tyoll + ", "+ layer.feature.properties.pt_tyovy);
 		return {
 		  // todo: combine and process data 
-		  color: postCodes.includes(layer.feature.properties.posti_alue) ? color : 'white',
-		  weight: 2
+		  color: hsl_col_perc(Math.random(), 0, 120),
+		  weight: 1
 		}
 	}
   }, new L.Format.GeoJSON({crs: L.CRS.EPSG4326}))
