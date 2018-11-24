@@ -2,7 +2,7 @@
 <html>
 <head>
 <style type="text/css">
-#mapid { height: 480px; }
+#mapid { width: 100%; height: 800px; }
 </style>
 
  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
@@ -14,6 +14,9 @@
    integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
    crossorigin=""></script>
  <script src="js/leaflet-heat.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.4.4/proj4.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4leaflet/1.0.2/proj4leaflet.js"></script>
+ <script src="js/leaflet-wfst.src.js"></script>
 </head>
 <body>
   <h2>Kartta</h2>
@@ -30,10 +33,30 @@ var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 var heat = L.heatLayer([
-	[60.1877, 24.8312, 10], // lat, lng, intensity
+	[60.1877, 24.8312, 20], // lat, lng, intensity
 	[60.1847, 24.8322, 5]
 ], {radius: 25}).addTo(map);
 
+  var wfst = new L.WFST({
+    url: 'http://geo.stat.fi/geoserver/postialue/wfs',
+    typeNS: 'postialue',
+    typeName: 'pno_tilasto_2018',
+    crs: L.CRS.EPSG4326,
+    geometryField: 'ogr_geometry',
+    style: function(layer) {
+     	//console.log(layer);
+		// you can use if statemt etc
+		return {
+		  // todo: combine and process data 
+		  color: layer.feature.properties.posti_alue=='02150' ? 'red' : 'grey',
+		  weight: 1
+		}
+	}
+  }, new L.Format.GeoJSON({crs: L.CRS.EPSG4326}))
+    .addTo(map)
+    .once('load', function () {
+      //map.fitBounds(wfst.getBounds());
+    });
 
   </script>
 </body>
