@@ -58,8 +58,8 @@ function hsl_col_perc(percent, start, end) {
 
 var map = L.map('mapid').setView([60.1847, 24.8322], 13);
 
-var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+var tiles = L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors',
 }).addTo(map);
 
 var heat = L.heatLayer([
@@ -68,7 +68,7 @@ var heat = L.heatLayer([
 ], {radius: 25}).addTo(map);
 
   var wfst = new L.WFST({
-    url: 'http://geo.stat.fi/geoserver/postialue/wfs',
+    url: 'https://geo.stat.fi/geoserver/postialue/wfs',
     typeNS: 'postialue',
     typeName: 'pno_tilasto_2018',
     crs: L.CRS.EPSG4326,
