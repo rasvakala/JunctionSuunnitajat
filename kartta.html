@@ -26,6 +26,9 @@
 
   <script type="text/javascript">
 
+var postCodes = ['02100','02110','02130','02140','02150','02160','02600', '02650'];
+var colorVals = ['blue','red','red','red','red','red','red', 'red'];
+
 var map = L.map('mapid').setView([60.1847, 24.8322], 13);
 
 var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -48,7 +51,7 @@ var heat = L.heatLayer([
 		// you can use if statemt etc
 		return {
 		  // todo: combine and process data 
-		  color: layer.feature.properties.posti_alue=='02150' ? 'red' : 'grey',
+		  color: postCodes.includes(layer.feature.properties.posti_alue) ? colorVals[postCodes.indexOf(layer.feature.properties.posti_alue)] : 'grey',
 		  weight: 1
 		}
 	}
