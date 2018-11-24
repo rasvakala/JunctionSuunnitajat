@@ -31,7 +31,8 @@ https://rasvakala.github.io/JunctionSuunnitajat/kartta2.html
 
 The Application uses open data from different sources.
 MashingUp data on the datasets that are trainable are plenty
-some examples
+
+Some examples
 
 * Office renting prizes / ratings https://toimitilat.oikotie.fi/ 
 
@@ -42,5 +43,6 @@ some examples
 * DemographicData https://www.stat.fi/tup/paavo/index.html, https://hri.fi/data/fi/dataset
 
 * Accessability https://blogs.helsinki.fi/accessibility/helsinki-region-travel-time-matrix
+
  
  
