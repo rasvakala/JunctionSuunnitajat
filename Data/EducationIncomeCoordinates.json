@@ -1,0 +1,79 @@
+[
+    {
+      "Postinumero": "02100",
+      "E": 24,
+      "Ee": "48,2",
+      "N": 60,
+      "Nn": "10,5",
+      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0,314389",
+      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0,38453",
+      "Konsulttiyritysten määrä": "0,275862068965517",
+      "Summa": "0,974781068965517"
+    },
+    {
+      "Postinumero": "02110",
+      "E": 24,
+      "Ee": "49,1",
+      "N": 60,
+      "Nn": "10,4",
+      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0,369662",
+      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0,396352",
+      "Konsulttiyritysten määrä": "0,137931034482759",
+      "Summa": "0,903945034482759"
+    },
+    {
+      "Postinumero": "02130",
+      "E": 24,
+      "Ee": "47,30",
+      "N": 60,
+      "Nn": "11,45",
+      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0,387132",
+      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0,477036",
+      "Konsulttiyritysten määrä": "0,275862068965517",
+      "Summa": "1,14003006896552"
+    },
+    {
+      "Postinumero": "02140",
+      "E": 24,
+      "Ee": "48,30",
+      "N": 60,
+      "Nn": 12,
+      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0,327802",
+      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0,469764",
+      "Konsulttiyritysten määrä": "0,0344827586206897",
+      "Summa": "0,83204875862069"
+    },
+    {
+      "Postinumero": "02160",
+      "E": 24,
+      "Ee": "49,47",
+      "N": 60,
+      "Nn": "12,16",
+      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0,407392",
+      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0,568249",
+      "Konsulttiyritysten määrä": "0,103448275862069",
+      "Summa": "1,07908927586207"
+    },
+    {
+      "Postinumero": "02600",
+      "E": 24,
+      "Ee": "80,72",
+      "N": 60,
+      "Nn": "21,40",
+      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0,200323",
+      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0,293669",
+      "Konsulttiyritysten määrä": 1,
+      "Summa": "1,493992"
+    },
+    {
+      "Postinumero": "02650",
+      "E": 24,
+      "Ee": "81,19",
+      "N": 60,
+      "Nn": "22,44",
+      "Normalisoitu ylemmän korkeakoulututkinnon suorittaneet": "0,197468",
+      "NormalisoituYlimpään tuloluokkaan kuuluvat asukkaat": "0,300757",
+      "Konsulttiyritysten määrä": "0,310344827586207",
+      "Summa": "0,808569827586207"
+    }
+  ]
