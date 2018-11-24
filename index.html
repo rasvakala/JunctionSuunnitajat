@@ -15,7 +15,7 @@ var nextResultsUri = "";
 var resultLimit = 1000; //for debugging
 var delayVal = 3000;   //to avoid spamming the api
 var industryCodes = ['62'];
-var postCodes = ['02600', '02650'];
+var postCodes = ['02100','02110','02130','02600', '02650'];
 var companiesByPostCode = []*postCodes.length;
 var companiesArray2 = [];
 var currentPCIndex = 0;
@@ -119,7 +119,7 @@ function getCompanies(postCode, industryCode) {
             companiesByPostCode[currentPCIndex] = companiesArray;
             currentPCIndex = currentPCIndex + 1;
             var value = companies.length;   //Here, determine the "value" - right now the amount of companies found
-            companiesArray2.push({'postcode':postCode, 'val': companies});
+            companiesArray2.push({'postcode':postCode, 'val': companies, 'amount': companies.length});
             //companiesArray2[pc] = { val: value};
             console.log(companiesArray2);
             document.getElementById("demo").innerHTML = JSON.stringify(companiesArray2);
