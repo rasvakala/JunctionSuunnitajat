@@ -14,7 +14,7 @@ var currentIndex = 0;
 var nextResultsUri = "";
 var resultLimit = 1000; //for debugging
 var delayVal = 3000;   //to avoid spamming the api
-var industryCode = 62;
+var industryCodes = ['62'];
 var postCodes = ['02600', '02650'];
 var companiesByPostCode = []*postCodes.length;
 var companiesArray2 = [];
@@ -33,7 +33,7 @@ function delay(ms) {
     }
 }
 
-function getNext(uri, totalResults, postCode) {
+function getNext(uri, totalResults, postCode, industryCode) {
     console.log(currentIndex);
     //console.log(uri);
     //console.log(companiesArray);
@@ -63,7 +63,7 @@ function getNext(uri, totalResults, postCode) {
         console.log("get more");
         currentIndex = currentIndex + companiesPerRequest;
         delay(delayVal);
-        getNext(nextResultsUri, totalResults, postCode);
+        getNext(nextResultsUri, totalResults, postCode, industryCode);
     }
     else {  //finished loading companies
 /*        console.log(companiesArray);
@@ -78,7 +78,7 @@ function getNext(uri, totalResults, postCode) {
         //console.log(companiesArray);
     }
 }
-function getCompanies(postCode) {
+function getCompanies(postCode, industryCode) {
     //companiesArray = new Array();
     //companiesArray = [];
     currentIndex = 0;
@@ -122,6 +122,7 @@ function getCompanies(postCode) {
             companiesArray2.push({'postcode':postCode, 'val': companies});
             //companiesArray2[pc] = { val: value};
             console.log(companiesArray2);
+            document.getElementById("demo").innerHTML = JSON.stringify(companiesArray2);
             //console.log(companiesByPostCode);
             //companiesArray = [];
             //companiesArray.length = 0;
@@ -136,7 +137,8 @@ function getCompanies(postCode) {
 function getAllCompanies() {
     for (pc=0; pc<postCodes.length; pc++) {
         var postCode = postCodes[pc];
-        getCompanies(postCode);
+        var industryCode = industryCodes[0];
+        getCompanies(postCode, industryCode);
         /*var companiesObj = {};
         companiesObj.pc = postCode;
         companiesObj.value = getCompanies(postCode);
@@ -144,7 +146,9 @@ function getAllCompanies() {
         companiesArray2.push(companiesObj);
         */
     }
+    
     //console.log(companiesArray2);
+    document.getElementById("demo").innerHTML = JSON.stringify(companiesArray2);
 }
 </script>
 
