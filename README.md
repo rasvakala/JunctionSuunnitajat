@@ -13,14 +13,14 @@ The Application uses open data from different sources.
 Mashing up data on the datasets that are trainable are plenty
 some examples
 
-*Office renting prizes / ratings
+* Office renting prizes / ratings
 
-*Traffic* https://www.digitraffic.fi/tieliikenne/#restjson-rajapinnat 
+* Traffic https://www.digitraffic.fi/tieliikenne/#restjson-rajapinnat 
 
-*Companies https://avoindata.prh.fi
+* Companies https://avoindata.prh.fi
 
-*DemographicData* https://www.stat.fi/tup/paavo/index.html
+* DemographicData https://www.stat.fi/tup/paavo/index.html
 
-*Accessability https://blogs.helsinki.fi/accessibility/helsinki-region-travel-time-matrix
+* Accessability https://blogs.helsinki.fi/accessibility/helsinki-region-travel-time-matrix
  
  
