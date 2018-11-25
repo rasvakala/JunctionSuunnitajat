@@ -21,7 +21,8 @@ CompanySector, Education and Income rate by area
 
 **Presets**
 
-Company Sectors: Restaurants, Grossaries, IT-companies
+Presets are formed by the field of company: benefits in synergies or financial benefit for locating enough far from a similar company, initial surveys made, and the presets logic is trained with economical data.  
+Company Sectors: Restaurants, Grossaries, IT-companies etc.
 
 **Training** 
 
